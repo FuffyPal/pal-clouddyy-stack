@@ -1,0 +1,13 @@
+.env
+!.env.example
+db_data
+nc_data
+.vscode
+mm_data
+mm_logs
+mm_config
+mm_plugins
+mm_client_plugins
+mm_bleve_indexes
+mattermost-db
+nextcloud-db

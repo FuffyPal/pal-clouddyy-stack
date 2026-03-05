@@ -1,0 +1,13 @@
+services:
+  tunnel:
+    image: docker.io/cloudflare/cloudflared:latest
+    container_name: cf-tunnel
+    restart: always
+    environment:
+      - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run --protocol http2
+    networks:
+      cloud_public:
+        external: true
+      cloud_internal:
+        external: true

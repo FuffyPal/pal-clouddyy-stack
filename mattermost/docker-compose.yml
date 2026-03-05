@@ -1,0 +1,44 @@
+services:
+  mattermost-db:
+    image: docker.io/library/postgres:18-alpine
+    container_name: mattermost-db
+    restart: always
+    environment:
+      - POSTGRES_USER=${MM_DB_USER}
+      - POSTGRES_PASSWORD=${MM_DB_PASS}
+      - POSTGRES_DB=${MM_DB_NAME}
+    volumes:
+      - ./mattermost-db:/var/lib/postgresql/data:rw,Z
+    networks:
+      - cloud_internal
+
+  mattermost-app:
+    image: docker.io/mattermost/mattermost-team-edition:latest
+    container_name: mattermost-app
+    restart: always
+    depends_on:
+      - mattermost-db
+    environment:
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://${MM_DB_USER}:${MM_DB_PASS}@mattermost-db:5432/${MM_DB_NAME}?sslmode=disable&connect_timeout=10
+      
+      - MM_SERVICESETTINGS_SITEURL=${MM_SITE_URL}
+    volumes:
+      - ./mm_data:/mattermost/data:rw,Z
+      - ./mm_logs:/mattermost/logs:rw,Z
+      - ./mm_config:/mattermost/config:rw,Z
+      - ./mm_plugins:/mattermost/plugins:rw,Z
+      - ./mm_client_plugins:/mattermost/client/plugins:rw,Z
+      - ./mm_bleve_indexes:/mattermost/bleve-indexes:rw,Z
+    networks:
+      - cloud_public
+      - cloud_internal
+    security_opt:
+      - "label=disable"
+    user: "2000:2000"
+
+networks:
+  cloud_public:
+    external: true
+  cloud_internal:
+    external: true

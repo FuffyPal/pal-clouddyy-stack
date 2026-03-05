@@ -1,0 +1,7 @@
+name: pal-stack
+
+include:
+  - ./cloudflare/docker-compose.yml
+  - ./nextcloud/docker-compose.yml
+  - ./mattermost/docker-compose.yml
+  # - ./linkstack/docker-compose.yml

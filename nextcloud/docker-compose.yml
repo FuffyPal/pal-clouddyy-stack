@@ -1,0 +1,39 @@
+services:
+  nextcloud-db:
+    image: docker.io/library/mariadb:10.11
+    container_name: nextcloud-db
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=${NC_DB_ROOT_PASS}
+      - MARIADB_PASSWORD=${NC_DB_PASS}
+      - MARIADB_DATABASE=nextcloud
+      - MARIADB_USER=nextcloud
+    volumes:
+      - ./nextcloud-db:/var/lib/mysql:Z
+    networks:
+      - cloud_internal
+
+  nextcloud-app:
+    image: docker.io/library/nextcloud:latest
+    container_name: nextcloud-app
+    restart: always
+    depends_on:
+      - nextcloud-db
+    environment:
+      - MYSQL_PASSWORD=${NC_DB_PASS}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=nextcloud-db:3306
+    volumes:
+      - ./nc_data:/var/www/html:Z
+    networks:
+      - cloud_public
+      - cloud_internal
+    security_opt:
+      - "label=disable"
+
+networks:
+  cloud_public:
+    external: true
+  cloud_internal:
+    external: true
