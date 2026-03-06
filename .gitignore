@@ -11,3 +11,5 @@ mm_client_plugins
 mm_bleve_indexes
 mattermost-db
 nextcloud-db
+ls_data
+linkstack_data
