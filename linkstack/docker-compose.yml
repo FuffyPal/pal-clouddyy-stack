@@ -1,0 +1,25 @@
+services:
+  linkstack-app:
+    build:
+      context: ./linkstack/.
+      dockerfile: Dockerfile
+    container_name: linkstack-app
+    restart: unless-stopped
+    user: "0:0"
+    environment:
+      - TZ=${LS_TZ:-Europe/Istanbul}
+      - SERVER_ADMIN=${LS_SERVER_ADMIN}
+      - HTTP_SERVER_NAME=${LS_DOMAIN}
+      - HTTPS_SERVER_NAME=${LS_DOMAIN}
+      - PHP_MEMORY_LIMIT=${LS_PHP_MEMORY_LIMIT:-512M}
+      - UPLOAD_MAX_FILESIZE=${LS_MAX_UPLOAD:-16M}
+      - FORCE_HTTPS=true
+    volumes:
+      - ./ls_data:/htdocs:Z
+    networks:
+      - cloud_public
+    userns_mode: "keep-id"
+
+networks:
+  cloud_public:
+    external: true
