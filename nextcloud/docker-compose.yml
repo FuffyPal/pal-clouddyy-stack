@@ -12,6 +12,13 @@ services:
       - ./nextcloud-db:/var/lib/mysql:Z
     networks:
       - cloud_internal
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          memory: 256M
 
   nextcloud-app:
     image: docker.io/library/nextcloud:latest
@@ -29,6 +36,13 @@ services:
     networks:
       - cloud_public
       - cloud_internal
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1.5G
+        reservations:
+          memory: 512M
     security_opt:
       - "label=disable"
 

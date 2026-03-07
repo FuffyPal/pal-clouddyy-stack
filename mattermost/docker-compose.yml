@@ -11,6 +11,14 @@ services:
       - ./mattermost-db:/var/lib/postgresql/data:rw,Z
     networks:
       - cloud_internal
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 256M
 
   mattermost-app:
     image: docker.io/mattermost/mattermost-team-edition:latest
@@ -21,7 +29,7 @@ services:
     environment:
       - MM_SQLSETTINGS_DRIVERNAME=postgres
       - MM_SQLSETTINGS_DATASOURCE=postgres://${MM_DB_USER}:${MM_DB_PASS}@mattermost-db:5432/${MM_DB_NAME}?sslmode=disable&connect_timeout=10
-      
+
       - MM_SERVICESETTINGS_SITEURL=${MM_SITE_URL}
     volumes:
       - ./mm_data:/mattermost/data:rw,Z
@@ -33,6 +41,14 @@ services:
     networks:
       - cloud_public
       - cloud_internal
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
     security_opt:
       - "label=disable"
     user: "2000:2000"
