@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  tailscale-vpn:
+    image: docker.io/tailscale/tailscale:latest
+    container_name: tailscale_exit_node
+    hostname: cloud-vpn-exit
+    restart: unless-stopped
+    privileged: true
+    networks:
+      - tailscale_net
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+      - TS_EXTRA_ARGS=--advertise-exit-node --accept-dns=true
+    volumes:
+      - ./tailscale_state:/var/lib/tailscale:rw,Z
+      - /dev/net/tun:/dev/net/tun:rw
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_MODULE
+    security_opt:
+      - label:disable
+      - seccomp=unconfined
+networks:
+  tailscale_net:
+    driver: bridge
+    external: true
