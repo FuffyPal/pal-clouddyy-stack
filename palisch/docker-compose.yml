@@ -1,0 +1,12 @@
+services:
+  palisch-bot:
+    image: registry.gitlab.com/fluffypal/palisch/main
+    container_name: palisch-bot
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN=${palisch_discord_bot}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
