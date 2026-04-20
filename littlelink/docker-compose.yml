@@ -1,0 +1,16 @@
+services:
+  littlelink-app:
+    build:
+      context: ./littlelink/.
+      dockerfile: Dockerfile
+    container_name: littlelink-app
+    restart: unless-stopped
+    environment:
+      - repo=${littlelink_git_repo:-https://github.com/FuffyPal/littlelink.git}
+    networks:
+      - cloud_public
+    userns_mode: "keep-id"
+
+networks:
+  cloud_public:
+    external: true
