@@ -2,7 +2,17 @@ FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
 
-COPY . .
+RUN apk add --no-cache git
+
+ARG repo=
+
+RUN cd /root && \
+    git clone ${repo} && \
+    cp -r /root/littlelink/* /usr/share/nginx/html/ && \
+    rm -rf /root/littlelink
+
+WORKDIR /usr/share/nginx/html
+
 
 RUN echo 'server { \
     listen 8080; \
@@ -18,6 +28,9 @@ RUN echo 'server { \
         add_header Cache-Control "public"; \
     } \
 }' > /etc/nginx/conf.d/default.conf
+
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 8080
 
