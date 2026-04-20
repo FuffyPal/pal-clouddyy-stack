@@ -9,9 +9,14 @@ services:
     restart: unless-stopped
     networks:
       - cloud_public
-    ports:
-      - "8080:8080"
-
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.10'
+          memory: 64M
 networks:
   cloud_public:
     external: true
