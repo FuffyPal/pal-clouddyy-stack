@@ -7,4 +7,4 @@ include:
   - ./tailscale/docker-compose.yml
   - ./linkstack/docker-compose.yml
   - ./palisch/docker-compose.yml
-
+  - ./icelatte/docker-compose.yml

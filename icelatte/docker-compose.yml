@@ -1,0 +1,13 @@
+services:
+  icelatte:
+    image: registry.gitlab.com/fluffypal/discord-bot/icelatte:latest
+    container_name: icelatte-bot
+    restart: unless-stopped
+    environment:
+      - TOKEN=${icelatte_discord_bot}
+      - DEBUG=${icelatte_DEBUG}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
