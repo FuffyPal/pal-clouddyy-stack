@@ -7,10 +7,8 @@ services:
       - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
     command: tunnel --no-autoupdate run --protocol http2
     networks:
-      cloud_public:
-        external: true
-      cloud_internal:
-        external: true
+      - cloud_public
+      - cloud_internal
     deploy:
       resources:
         limits:
@@ -19,3 +17,8 @@ services:
         reservations:
           cpus: '0.10'
           memory: 64M
+networks:
+  cloud_public:
+    external: true
+  cloud_internal:
+    external: true
