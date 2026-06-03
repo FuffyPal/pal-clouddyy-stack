@@ -12,16 +12,16 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 256M
         reservations:
-          cpus: '0.10'
+          cpus: "0.10"
           memory: 64M
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
-      - TS_EXTRA_ARGS=--advertise-exit-node --accept-dns=true
+      - TS_EXTRA_ARGS=--advertise-exit-node --accept-dns=true --ssh
     volumes:
       - ./tailscale_state:/var/lib/tailscale:rw,Z
       - /dev/net/tun:/dev/net/tun:rw
