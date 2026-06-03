@@ -14,3 +14,4 @@ nextcloud-db
 ls_data
 linkstack_data
 tailscale_state
+pelican-db
