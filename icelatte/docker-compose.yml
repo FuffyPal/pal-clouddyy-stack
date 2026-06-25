@@ -7,7 +7,7 @@ services:
       - TOKEN=${icelatte_discord_bot}
       - DEBUG=${icelatte_DEBUG}
     volumes:
-      - ./database:/app/database
+      - ./database:/app/database:Z
     deploy:
       resources:
         limits:
