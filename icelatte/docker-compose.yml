@@ -6,6 +6,8 @@ services:
     environment:
       - TOKEN=${icelatte_discord_bot}
       - DEBUG=${icelatte_DEBUG}
+    volumes:
+      - ./database:/app/database
     deploy:
       resources:
         limits:
