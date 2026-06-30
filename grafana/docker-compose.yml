@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: docker.io/prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./grafana/config/prometheus.yml:/etc/prometheus/prometheus.yml:rw,Z
+      - prometheus_data:/prometheus
+    networks:
+      cloud_internal:
+        aliases:
+          - prometheus
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+  grafana:
+    image: docker.io/grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      cloud_internal:
+        aliases:
+          - grafana
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  cloud_internal:
+    external: true
+  
