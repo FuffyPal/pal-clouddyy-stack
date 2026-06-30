@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
-    command: tunnel --no-autoupdate run --protocol http2
+    command: tunnel --no-autoupdate run --protocol http2 --no-tls-verify
     networks:
       - cloud_public
       - cloud_internal
