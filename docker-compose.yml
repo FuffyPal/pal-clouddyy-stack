@@ -2,10 +2,10 @@ name: pal-stack
 
 include:
   - ./cloudflare/docker-compose.yml
-  # - ./nextcloud/docker-compose.yml
-  # - ./mattermost/docker-compose.yml
-  # - ./tailscale/docker-compose.yml
-  # - ./linkstack/docker-compose.yml
-  # - ./palisch/docker-compose.yml
-  # - ./icelatte/docker-compose.yml
+  - ./nextcloud/docker-compose.yml
+  - ./mattermost/docker-compose.yml
+  - ./tailscale/docker-compose.yml
+  - ./linkstack/docker-compose.yml
+  - ./palisch/docker-compose.yml
+  - ./icelatte/docker-compose.yml
   - ./grafana/docker-compose.yml
