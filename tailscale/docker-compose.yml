@@ -23,8 +23,8 @@ services:
       - TS_USERSPACE=false
       - TS_EXTRA_ARGS=--advertise-exit-node --accept-dns=true --ssh
     volumes:
-      - ./tailscale_state:/var/lib/tailscale:rw,Z
-      - /dev/net/tun:/dev/net/tun:rw
+      - tailscale_state:/var/lib/tailscale:Z
+      - /dev/net/tun:/dev/net/tun
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -32,6 +32,10 @@ services:
     security_opt:
       - label:disable
       - seccomp=unconfined
+
+volumes:
+  tailscale_state:
+
 networks:
   tailscale_net:
     driver: bridge

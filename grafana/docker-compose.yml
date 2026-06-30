@@ -6,7 +6,7 @@ services:
     container_name: prometheus
     restart: unless-stopped
     volumes:
-      - ./grafana/config/prometheus.yml:/etc/prometheus/prometheus.yml:rw,Z
+      - ./grafana/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
       - prometheus_data:/prometheus
     networks:
       cloud_internal:

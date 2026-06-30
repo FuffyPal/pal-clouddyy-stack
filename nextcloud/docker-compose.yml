@@ -9,7 +9,7 @@ services:
       - MARIADB_DATABASE=nextcloud
       - MARIADB_USER=nextcloud
     volumes:
-      - ./nextcloud-db:/var/lib/mysql:Z
+      - nextcloud_db_data:/var/lib/mysql:Z
     networks:
       - cloud_internal
     deploy:
@@ -32,7 +32,7 @@ services:
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=nextcloud-db:3306
     volumes:
-      - ./nc_data:/var/www/html:Z
+      - nextcloud_data:/var/www/html:Z
     networks:
       - cloud_public
       - cloud_internal
@@ -45,6 +45,10 @@ services:
           memory: 512M
     security_opt:
       - "label=disable"
+
+volumes:
+  nextcloud_db_data:
+  nextcloud_data:
 
 networks:
   cloud_public:

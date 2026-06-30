@@ -7,9 +7,12 @@ services:
       - TOKEN=${icelatte_discord_bot}
       - DEBUG=${icelatte_DEBUG}
     volumes:
-      - ./database:/app/database:Z
+      - icelatte_db:/app/database:Z
     deploy:
       resources:
         limits:
           cpus: '0.10'
           memory: 128M
+
+volumes:
+  icelatte_db:

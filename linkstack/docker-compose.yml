@@ -15,10 +15,13 @@ services:
       - UPLOAD_MAX_FILESIZE=${LS_MAX_UPLOAD:-16M}
       - FORCE_HTTPS=true
     volumes:
-      - ./ls_data:/htdocs:Z
+      - linkstack_data:/htdocs:Z
     networks:
       - cloud_public
     userns_mode: "keep-id"
+
+volumes:
+  linkstack_data:
 
 networks:
   cloud_public:

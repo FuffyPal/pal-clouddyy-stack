@@ -8,7 +8,7 @@ services:
       - POSTGRES_PASSWORD=${MM_DB_PASS}
       - POSTGRES_DB=${MM_DB_NAME}
     volumes:
-      - ./mattermost-db:/var/lib/postgresql/data:rw,Z
+      - mattermost_db_data:/var/lib/postgresql/data:Z
     networks:
       - cloud_internal
     deploy:
@@ -32,12 +32,12 @@ services:
 
       - MM_SERVICESETTINGS_SITEURL=${MM_SITE_URL}
     volumes:
-      - ./mm_data:/mattermost/data:rw,Z
-      - ./mm_logs:/mattermost/logs:rw,Z
-      - ./mm_config:/mattermost/config:rw,Z
-      - ./mm_plugins:/mattermost/plugins:rw,Z
-      - ./mm_client_plugins:/mattermost/client/plugins:rw,Z
-      - ./mm_bleve_indexes:/mattermost/bleve-indexes:rw,Z
+      - mattermost_data:/mattermost/data:Z
+      - mattermost_logs:/mattermost/logs:Z
+      - mattermost_config:/mattermost/config:Z
+      - mattermost_plugins:/mattermost/plugins:Z
+      - mattermost_client_plugins:/mattermost/client/plugins:Z
+      - mattermost_bleve_indexes:/mattermost/bleve-indexes:Z
     networks:
       - cloud_public
       - cloud_internal
@@ -52,6 +52,15 @@ services:
     security_opt:
       - "label=disable"
     user: "2000:2000"
+
+volumes:
+  mattermost_db_data:
+  mattermost_data:
+  mattermost_logs:
+  mattermost_config:
+  mattermost_plugins:
+  mattermost_client_plugins:
+  mattermost_bleve_indexes:
 
 networks:
   cloud_public:
