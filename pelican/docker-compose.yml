@@ -38,7 +38,7 @@ services:
       - DB_DATABASE=pelican
       - DB_USERNAME=pelican
       - DB_PASSWORD=${PELICAN_DB_PASS}
-      - BEHIND_PROXY=true # Let's Encrypt hatasını çözen kritik satır!
+      - BEHIND_PROXY=true
     volumes:
       - pelican-data:/pelican-data:rw,Z
       - pelican-logs:/var/www/html/storage/logs:rw,Z
