@@ -20,6 +20,8 @@ services:
     image: docker.io/grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
+    environment:
+      - GF_SERVER_ROOT_URL=${GF_SERVER_ROOT_URL}
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
