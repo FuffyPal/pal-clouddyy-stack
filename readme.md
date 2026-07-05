@@ -73,6 +73,12 @@ chmod -R 777 ./scp_plugins_labapi ./scp_config
 podman unshare chown -R 777 ./scp_plugins_labapi ./scp_config
 ```
 
+## 😱 Adding Admin User to PufferPanel (this is an error)
+
+```bash
+podman exec -it pufferpanel /pufferpanel/bin/pufferpanel user add --name "[NAME]" --email "[EMAIL_ADDRESS]" --password "[PASSWORD]" --admin
+```
+
 ## 📅 Roadmap (Coming Soon!)
 
 I'm still working on making this suite even better. Stay tuned for:
