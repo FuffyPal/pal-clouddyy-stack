@@ -30,9 +30,9 @@ services:
     # Persistent data — accessible only by the scp user
     # :Z tells SELinux to relabel the host directory so the container can read/write
     volumes:
-      # Plugins (host → container, read/write)
+      # Plugins LabAIP (host → container, read/write)
       - "./scp_plugins_labapi:/home/scp/.config/SCP Secret Laboratory/LabAPI:Z"
-      # Configuration files
+      # GAME Configuration files
       - "./scp_config:/home/scp/.config/SCP Secret Laboratory/config:Z"
       # Server files — uncomment to expose externally (already present in the image)
       - scpsl_server:/opt/scpsl/server
