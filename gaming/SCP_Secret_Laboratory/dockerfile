@@ -40,8 +40,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     # Directories
     STEAMCMD_DIR=/opt/steamcmd \
     SERVER_DIR=/opt/scpsl/server \
-    CONFIG_DIR=/home/scp/SCP_Secret_Laboratory \
-    LOGS_DIR=/home/scp/logs \
+    CONFIG_DIR="/home/scp/.config/SCP Secret Laboratory" \
     # SteamCMD home directory (download cache)
     STEAM_DIR=/home/scp/.steam \
     # SCP:SL App ID
@@ -85,7 +84,6 @@ RUN mkdir -p \
     "${CONFIG_DIR}" \
     "${CONFIG_DIR}/config" \
     "${CONFIG_DIR}/SCPSL_Data/Managed/Plugins" \
-    "${LOGS_DIR}" \
     "${STEAM_DIR}" \
     "${STEAMCMD_DIR}" && \
     chown -R "${SCP_UID}:${SCP_GID}" \
@@ -115,7 +113,7 @@ RUN "${STEAMCMD_DIR}/steamcmd.sh" \
 # ---- Entrypoint ----
 # Launch the server directly
 # Uses the Linux dedicated server binary instead of LocalAdmin.exe
-ENTRYPOINT ["/opt/scpsl/server/LocalAdmin"]
+ENTRYPOINT ["/bin/bash", "-c", "cd /opt/scpsl/server && ./LocalAdmin"]
 
 # 7777/UDP — game traffic
 # 9777/TCP — LocalAdmin console port (optional, not exposed)

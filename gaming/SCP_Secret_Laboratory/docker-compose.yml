@@ -6,6 +6,9 @@ services:
     image: scpsl-dedicated:latest
     container_name: scp-secret-laboratory
 
+    stdin_open: true
+    tty: true
+
     # Security: do not run as root, no host system access
     user: "1500:1500"
     read_only: false          # must be false so the server can write config/logs
@@ -28,11 +31,9 @@ services:
     # :Z tells SELinux to relabel the host directory so the container can read/write
     volumes:
       # Plugins (host → container, read/write)
-      # - ./plugins:/home/scp/SCP_Secret_Laboratory/SCPSL_Data/Managed/Plugins:Z
+      - "./scp_plugins_labapi:/home/scp/.config/SCP Secret Laboratory/LabAPI:Z"
       # Configuration files
-      # - ./config:/home/scp/SCP_Secret_Laboratory/config:Z
-      # Log files
-      # - ./logs:/home/scp/logs:Z
+      - "./scp_config:/home/scp/.config/SCP Secret Laboratory/config:Z"
       # Server files — uncomment to expose externally (already present in the image)
       - scpsl_server:/opt/scpsl/server
 

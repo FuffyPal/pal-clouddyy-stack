@@ -25,8 +25,8 @@ Eğer kurulum sırasında ağların bulunamadığına dair bir hata alırsanız,
 **Podman kullanıyorsanız:**
 
 ```bash
-podman network create tailscale_net 
-podman network create cloud_public 
+podman network create tailscale_net
+podman network create cloud_public
 podman network create cloud_internal
 ```
 
@@ -46,14 +46,14 @@ Sometimes **Mattermost** can be a bit sensitive regarding folder permissions. If
 
 If you run into permission issues, follow these steps to reset the environment properly:
 
-* **Delete** the existing (broken) directories first.
-* **Recreate** the necessary folders:
+- **Delete** the existing (broken) directories first.
+- **Recreate** the necessary folders:
 
 ```bash
 mkdir mm_data mm_logs mm_config mm_plugins mm_client_plugins mm_bleve_indexes
 ```
 
-* **Apply** the correct ownership so Mattermost can access them:
+- **Apply** the correct ownership so Mattermost can access them:
 
 ```bash
 podman unshare chown -R 2000:2000 mm_*
@@ -61,11 +61,23 @@ podman unshare chown -R 2000:2000 mm_*
 
 After running these, just restart your containers and you're good to go! 🌈
 
+## 😱 Fixing SCP Secret Laboratory Permission Errors
+
+```bash
+chmod -R 777 ./scp_plugins_labapi ./scp_config
+```
+
+**or**
+
+```bash
+podman unshare chown -R 777 ./scp_plugins_labapi ./scp_config
+```
+
 ## 📅 Roadmap (Coming Soon!)
 
 I'm still working on making this suite even better. Stay tuned for:
 
-* **📧 Mailcow** (For your own mail server)
-* **🔗 LinkStack** (A beautiful landing page for your links)
+- **📧 Mailcow** (For your own mail server)
+- **🔗 LinkStack** (A beautiful landing page for your links)
 
 **Happy hosting!** If you hit a snag, just breathe and try the permission fix. You've got this! ✨
