@@ -5,8 +5,8 @@ services:
     image: docker.io/pufferpanel/pufferpanel:latest
     container_name: pufferpanel
     user: "0:0"
-    # ports:
-    #   - "5657:5657" # SFTP port for file transfer
+    ports:
+      - "5657:5657" # SFTP port for file transfer
     volumes:
       - pufferpanel_config:/etc/pufferpanel
       - pufferpanel_data:/var/lib/pufferpanel
