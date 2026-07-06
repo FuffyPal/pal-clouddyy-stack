@@ -6,6 +6,7 @@ services:
     container_name: gitlab-runner
     restart: unless-stopped
     user: "1001:1001"
+    userns_mode: "keep-id"
     command: ["run", "--config=/home/gitlab-runner/config.toml", "--working-directory=/home/gitlab-runner"]
     environment:
       - TZ=Europe/Istanbul
