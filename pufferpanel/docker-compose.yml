@@ -9,7 +9,7 @@ services:
       - "5657:5657" # SFTP port for file transfer
     volumes:
       - pufferpanel_config:/etc/pufferpanel
-      - ./pufferpanel/pufferpanel_data:/var/lib/pufferpanel:Z
+      - pufferpanel_data:/var/lib/pufferpanel
       # This line is required for PufferPanel to be able to create isolated Docker containers internally:
       - ${PODMAN_SOCK_PATH}:/var/run/docker.sock
     environment:
