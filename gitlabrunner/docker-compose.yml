@@ -10,7 +10,7 @@ services:
       - TZ=Europe/Istanbul
     volumes:
       - ${PODMAN_SOCK_PATH}:/var/run/docker.sock:Z
-      - ./config.toml:/etc/gitlab-runner/config.toml:Z
+      - ./gitlabrunner/config.toml:/etc/gitlab-runner/config.toml:Z
     networks:
       cloud_internal:
         aliases:
