@@ -20,5 +20,5 @@ check_interval = 0
     disable_entrypoint_overwrite = false
     oom_kill_disable = false
     disable_cache = false
-    volumes = ["/run/user/1001/podman/podman.sock:/var/run/docker.sock", "/cache"]
+    volumes = ["/cache"]
     shm_size = 2000000000
