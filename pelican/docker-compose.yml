@@ -45,8 +45,9 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
-      - cloud_public
-      - cloud_internal
+      cloud_internal:
+        aliases:
+          - pelican
     deploy:
       resources:
         limits:
@@ -58,10 +59,39 @@ services:
     security_opt:
       - "label=disable"
 
+  pelican-wings:
+    image: ghcr.io/pelican-dev/wings:latest
+    container_name: pelican-wings
+    restart: always
+    depends_on:
+      - pelican-app
+    environment:
+      - TZ=Europe/Istanbul
+    volumes:
+      - "/run/user/1000/podman/podman.sock:/var/run/docker.sock"
+      - "./wings:/etc/pelican:rw,Z"
+      - "pelican-wings-data:/var/lib/pelican:rw,Z"
+    security_opt:
+      - "label=disable"
+    ports:
+      - "8085:8080" # Web API for Node communication
+      - "2022:2022" # SFTP port for file management
+    networks:
+      - cloud_internal
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
 volumes:
   pelican-db:
   pelican-data:
   pelican-logs:
+  pelican-wings-data:
 
 networks:
   cloud_public:
