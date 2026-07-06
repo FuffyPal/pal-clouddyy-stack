@@ -8,6 +8,7 @@ services:
     user: "1001:1001"
     environment:
       - TZ=Europe/Istanbul
+      - HOME=/home/gitlab-runner
     volumes:
       - ${PODMAN_SOCK_PATH}:/var/run/docker.sock
       - ./gitlabrunner/config.toml:/etc/gitlab-runner/config.toml:Z
