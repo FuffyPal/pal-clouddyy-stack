@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  gitlab-runner:
+    image: docker.io/gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Istanbul
+    volumes:
+      - ${PODMAN_SOCK_PATH}:/var/run/docker.sock
+      - ./config.toml:/etc/gitlab-runner/config.toml:Z
+    networks:
+      cloud_internal:
+        aliases:
+          - gitlab-runner
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+        reservations:
+          cpus: "0.10"
+          memory: 128M
+
+networks:
+  cloud_internal:
+    external: true

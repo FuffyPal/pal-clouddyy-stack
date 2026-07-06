@@ -11,7 +11,7 @@ services:
       - pufferpanel_config:/etc/pufferpanel
       - pufferpanel_data:/var/lib/pufferpanel
       # This line is required for PufferPanel to be able to create isolated Docker containers internally:
-      - /run/user/1000/podman/podman.sock:/var/run/docker.sock
+      - ${PODMAN_SOCK_PATH}:/var/run/docker.sock
     environment:
       - PUFFER_PANEL_REVERSE_PROXY=true
     
