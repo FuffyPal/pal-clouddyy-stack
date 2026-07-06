@@ -12,7 +12,6 @@ services:
       - HOME=/home/gitlab-runner
     volumes:
       - ${PODMAN_SOCK_PATH}:/var/run/docker.sock
-      - ./gitlabrunner/config.toml:/etc/gitlab-runner/config.toml:Z
       - ./gitlabrunner/home:/home/gitlab-runner:Z
     networks:
       cloud_internal:
