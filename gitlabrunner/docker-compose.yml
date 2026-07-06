@@ -11,7 +11,7 @@ services:
       - TZ=Europe/Istanbul
       - HOME=/home/gitlab-runner
     volumes:
-      - ${PODMAN_SOCK_PATH}:/var/run/docker.sock
+      - ${PODMAN_SOCK_PATH}:/var/run/docker.sock:Z
       - ./gitlabrunner/home:/home/gitlab-runner:Z
     networks:
       cloud_internal:
