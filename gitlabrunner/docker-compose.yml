@@ -5,11 +5,11 @@ services:
     image: docker.io/gitlab/gitlab-runner:latest
     container_name: gitlab-runner
     restart: unless-stopped
-    entrypoint: ["gitlab-runner", "run", "--user=root", "--working-directory=/home/gitlab-runner"]
+    user: "1001:1001"
     environment:
       - TZ=Europe/Istanbul
     volumes:
-      - ${PODMAN_SOCK_PATH}:/var/run/docker.sock:Z
+      - ${PODMAN_SOCK_PATH}:/var/run/docker.sock
       - ./gitlabrunner/config.toml:/etc/gitlab-runner/config.toml:Z
     networks:
       cloud_internal:
