@@ -5,6 +5,7 @@ services:
     image: docker.io/gitlab/gitlab-runner:latest
     container_name: gitlab-runner
     restart: unless-stopped
+    entrypoint: ["gitlab-runner", "run", "--user=root", "--working-directory=/home/gitlab-runner"]
     environment:
       - TZ=Europe/Istanbul
     volumes:
