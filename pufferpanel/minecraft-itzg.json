@@ -1,0 +1,100 @@
+{
+  "type": "minecraft-itzg",
+  "display": "Minecraft Server (itzg Docker)",
+  "icon": "minecraft-java",
+  "data": {
+    "port": {
+      "type": "integer",
+      "value": 25565,
+      "display": "Server Port",
+      "desc": "The port the Minecraft server will listen on",
+      "required": true
+    },
+    "eula": {
+      "type": "boolean",
+      "value": true,
+      "display": "Accept EULA",
+      "desc": "You must agree to the Minecraft EULA to run the server",
+      "required": true
+    },
+    "type": {
+      "type": "string",
+      "value": "PAPER",
+      "display": "Server Type",
+      "desc": "Minecraft server distribution (VANILLA, PAPER, FABRIC, FORGE, etc.)",
+      "required": true
+    },
+    "version": {
+      "type": "string",
+      "value": "LATEST",
+      "display": "Minecraft Version",
+      "desc": "Minecraft version (e.g., LATEST, 1.20.1)",
+      "required": true
+    },
+    "memory": {
+      "type": "integer",
+      "value": 2048,
+      "display": "Memory Allocation (MB)",
+      "desc": "Memory allocated to Java in Megabytes (e.g., 1024 for 1GB, 2048 for 2GB, 4096 for 4GB)",
+      "required": true
+    },
+    "jvm-flags-preset": {
+      "type": "option",
+      "value": "-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8m -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1",
+      "display": "JVM Flags Preset",
+      "desc": "Select optimization flags for Java Garbage Collection",
+      "required": true,
+      "options": [
+        {
+          "value": "-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8m -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1",
+          "display": "Aikar's Flags (G1GC - Recommended for most servers)"
+        },
+        {
+          "value": "--add-modules=jdk.incubator.vector -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:G1NewSizePercent=28 -XX:G1MaxNewSizePercent=50 -XX:G1HeapRegionSize=16M -XX:InitiatingHeapOccupancyPercent=20",
+          "display": "MeowIce G1GC Flags (Optimized for modern Java / GraalVM)"
+        },
+        {
+          "value": "--add-modules=jdk.incubator.vector -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+UseZGC -XX:-ZProactive -XX:+UseNUMA",
+          "display": "MeowIce ZGC Flags (Recommended only for 32GB+ RAM & 10+ CPU cores)"
+        },
+        {
+          "value": "",
+          "display": "None (Default JVM Behavior)"
+        }
+      ]
+    },
+    "online-mode": {
+      "type": "boolean",
+      "value": true,
+      "display": "Online Mode",
+      "desc": "Whether the server checks Minecraft accounts against Mojang servers",
+      "required": true
+    }
+  },
+  "install": [],
+  "run": {
+    "command": "/start",
+    "stop": "stop",
+    "workingDirectory": "/data",
+    "environmentVars": {
+      "EULA": "${eula}",
+      "TYPE": "${type}",
+      "VERSION": "${version}",
+      "MEMORY": "${memory}M",
+      "JVM_OPTS": "${jvm-flags-preset}",
+      "ONLINE_MODE": "${online-mode}"
+    }
+  },
+  "environment": {
+    "type": "docker"
+  },
+  "supportedEnvironments": [
+    {
+      "type": "docker",
+      "image": "docker.io/itzg/minecraft-server:latest",
+      "portBindings": [
+        "0.0.0.0:${port}:${port}/tcp"
+      ]
+    }
+  ]
+}
