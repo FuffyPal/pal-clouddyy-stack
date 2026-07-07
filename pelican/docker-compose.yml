@@ -68,7 +68,7 @@ services:
     environment:
       - TZ=Europe/Istanbul
     volumes:
-      - "/run/user/1000/podman/podman.sock:/var/run/docker.sock"
+      - "${PODMAN_SOCK_PATH}:/var/run/docker.sock"
       - "./wings:/etc/pelican:rw,Z"
       - "pelican-wings-data:/var/lib/pelican:rw,Z"
     security_opt:
