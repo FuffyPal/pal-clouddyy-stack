@@ -25,7 +25,7 @@ RUN npm prune --omit=dev
 
 # Build Frontend
 WORKDIR /app/frontend
-ARG VITE_DB_API_BASE_URL="/api"
+ARG VITE_DB_API_BASE_URL="https://db.gamepanel.ovh/"
 ENV VITE_DB_API_BASE_URL=${VITE_DB_API_BASE_URL}
 RUN npm ci
 RUN npm run build
