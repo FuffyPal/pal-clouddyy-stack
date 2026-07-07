@@ -73,11 +73,45 @@ chmod -R 777 ./scp_plugins_labapi ./scp_config
 podman unshare chown -R 777 ./scp_plugins_labapi ./scp_config
 ```
 
-## 😱 Adding Admin User to PufferPanel (this is an error)
+## 🎮 Setting up Pelican Panel & Wings (Game Server Panel)
 
-```bash
-podman exec -it pufferpanel /pufferpanel/bin/pufferpanel user add --name "[NAME]" --email "[EMAIL_ADDRESS]" --password "[PASSWORD]" --admin
-```
+To get Pelican Panel and Wings up and running with Podman/Docker:
+
+1. **Start Panel & Database:**
+   ```bash
+   podman-compose -f pelican/docker-compose.yml up -d pelican-db pelican-app
+   ```
+2. **Run DB Migrations:**
+   ```bash
+   podman exec -it pelican-app php artisan migrate --seed --force
+   ```
+3. **Create your Admin User:**
+   ```bash
+   podman exec -it pelican-app php artisan p:user:make
+   ```
+4. **Setup Node & get Config:**
+   - Log into the panel interface.
+   - Create a Location, then add a Node.
+   - For internal communication, set the node's **FQDN/Address** to `pelican-wings`.
+   - Copy the generated `config.yml` configuration.
+5. **Save Configuration & Start Wings:**
+   - Create a file at `pelican/wings/config.yml` on the host and paste the configuration.
+   - Start the Wings container:
+     ```bash
+     podman-compose -f pelican/docker-compose.yml up -d pelican-wings
+     ```
+
+## 😱 Fixing Pelican Database Connection Errors (Connection Refused)
+
+If you run migrations right after starting the database and get a `Connection refused` error, don't panic! The MariaDB server just needs 10-15 seconds to initialize the data directory on its first run.
+- Check database startup progress:
+  ```bash
+  podman logs pelican-db
+  ```
+- Wait a few seconds until the logs show `ready for connections`, then run the migration command again:
+  ```bash
+  podman exec -it pelican-app php artisan migrate --seed --force
+  ```
 
 ## 📅 Roadmap (Coming Soon!)
 
