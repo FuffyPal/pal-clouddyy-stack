@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Clone the OVH Game Panel repository
 RUN git clone https://github.com/ovh/game-panel.git .
+RUN sed -i 's/\${mount.hostPath}:\${mount.containerPath}/\${mount.hostPath}:\${mount.containerPath}:z/g' backend/src/utils/docker/containers.ts
 
 # Build Backend
 WORKDIR /app/backend
