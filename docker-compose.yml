@@ -8,6 +8,5 @@ include:
   - ./linkstack/docker-compose.yml
   - ./icelatte/docker-compose.yml
   - ./grafana/docker-compose.yml
-  # - ./pelican/docker-compose.yml
+  - ./pelican/docker-compose.yml
   - ./gitlabrunner/docker-compose.yml
-
