@@ -73,44 +73,33 @@ chmod -R 777 ./scp_plugins_labapi ./scp_config
 podman unshare chown -R 777 ./scp_plugins_labapi ./scp_config
 ```
 
-## 🎮 Setting up Pelican Panel & Wings (Game Server Panel)
+## 🎮 Setting up OVHcloud Game Panel (Containerized Setup)
 
-To get Pelican Panel and Wings up and running with Podman/Docker:
+To spin up the OVHcloud Game Panel with rootless Podman/Docker using our custom compose setup (fully containerized and routed through Nginx proxy):
 
-1. **Start Panel & Database:**
+1. **Deploy the Panel:**
    ```bash
-   podman-compose -f pelican/docker-compose.yml up -d pelican-db pelican-app
+   podman-compose up -d --build
    ```
-2. **Run DB Migrations:**
-   ```bash
-   podman exec -it pelican-app php artisan migrate --seed --force
-   ```
-3. **Create your Admin User:**
-   ```bash
-   podman exec -it pelican-app php artisan p:user:make
-   ```
-4. **Setup Node & get Config:**
-   - Log into the panel interface.
-   - Create a Location, then add a Node.
-   - For internal communication, set the node's **FQDN/Address** to `pelican-wings`.
-   - Copy the generated `config.yml` configuration.
-5. **Save Configuration & Start Wings:**
-   - Create a file at `pelican/wings/config.yml` on the host and paste the configuration.
-   - Start the Wings container:
-     ```bash
-     podman-compose -f pelican/docker-compose.yml up -d pelican-wings
-     ```
+   *(This builds the all-in-one Ubuntu container including React frontend, Node.js backend, and the local Nginx proxy directly from the root context).*
 
-## 😱 Fixing Pelican Database Connection Errors (Connection Refused)
+2. **Access the Web Interface:**
+   - The panel UI is mapped to host port `8095` (or routed via Cloudflare Tunnel targeting `ovh-proxy:80`).
+   - Use the credentials defined in your environment variables to log in (defaults: Username `admin`, Password `adminpass123`).
 
-If you run migrations right after starting the database and get a `Connection refused` error, don't panic! The MariaDB server just needs 10-15 seconds to initialize the data directory on its first run.
-- Check database startup progress:
+3. **Deploying Game Servers:**
+   - Click "Deploy Server" from the modern dashboard.
+   - Choose Minecraft, Counter-Strike 2, Hytale, or run any custom LinuxGSM / external Docker image directly from the UI.
+   - Files are stored in `game-panel/servers` on the host, making it super easy to edit configs or add plugins!
+
+## 😱 Fixing Podman Socket Access in OVH Panel
+
+Since the panel orchestrates games via Docker/Podman container lifecycle, it requires socket access.
+- Ensure your `.env` contains the correct host path:
+  `PODMAN_SOCK_PATH=/run/user/1000/podman/podman.sock`
+- If the panel backend logs show socket communication errors, verify the socket file permissions on the host:
   ```bash
-  podman logs pelican-db
-  ```
-- Wait a few seconds until the logs show `ready for connections`, then run the migration command again:
-  ```bash
-  podman exec -it pelican-app php artisan migrate --seed --force
+  ls -la /run/user/1000/podman/podman.sock
   ```
 
 ## 📅 Roadmap (Coming Soon!)

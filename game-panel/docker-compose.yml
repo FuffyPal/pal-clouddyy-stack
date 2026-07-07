@@ -1,0 +1,37 @@
+services:
+  ovh-panel:
+    build:
+      context: ./game-panel
+      dockerfile: Dockerfile
+    container_name: ovh-panel
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DOMAIN: ${OVH_PANEL_DOMAIN:-testovhpanel.fluffypal.me}
+      JWT_SECRET: ${OVH_JWT_SECRET:-super_secret_jwt_key_12345}
+      ADMIN_USERNAME: ${OVH_ADMIN_USER:-admin}
+      ADMIN_PASSWORD: ${OVH_ADMIN_PASS:-adminpass123}
+      GAMEPANEL_APP_ROOT: ${GAMEPANEL_APP_ROOT:-/game-panel}
+      DOCKER_SOCKET: /var/run/docker.sock
+      TRUST_PROXY: "true"
+      TELEMETRY_ENABLED: "false"
+    volumes:
+      - ovh-panel-data:/data:rw,Z
+      - "${PODMAN_SOCK_PATH}:/var/run/docker.sock"
+      - ./game-panel/servers:${GAMEPANEL_APP_ROOT}/servers:rw,Z
+    ports:
+      - "8095:80" # Exposed HTTP port (Panel Nginx)
+    networks:
+      cloud_internal:
+        aliases:
+          - ovh-proxy
+    restart: unless-stopped
+    security_opt:
+      - "label=disable"
+
+volumes:
+  ovh-panel-data:
+
+networks:
+  cloud_internal:
+    external: true

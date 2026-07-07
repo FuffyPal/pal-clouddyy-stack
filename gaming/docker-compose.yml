@@ -1,0 +1,10 @@
+services:
+  scpserver:
+    image: ghcr.io/gameservermanagers/gameserver:scpsl
+    container_name: scpsl-server
+    volumes:
+      - scp_data:/data
+    network_mode: host
+    restart: unless-stopped
+volumes:
+  scp_data:
